@@ -1,0 +1,56 @@
+class Solution {
+public:
+    
+    void squareAndMerge(vector<int>& nums, vector<int>& res, int m){
+        
+        int p1 = m - 1;
+        int p2 = m;
+        while( p1 >= 0 && p2 < nums.size()){
+            if( nums[p1]*nums[p1] <= nums[p2]*nums[p2] ){
+                res.push_back(nums[p1]*nums[p1]);
+                --p1;
+            }
+            else{
+                res.push_back(nums[p2]*nums[p2]);
+                ++p2;
+            }
+        }
+        
+        while( p1 >= 0 ){
+            res.push_back(nums[p1]*nums[p1]);
+            --p1;
+        }
+        
+        while( p2 < nums.size() ){
+            res.push_back(nums[p2]*nums[p2]);
+            ++p2;
+        }
+    }
+    
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> res;
+        if( nums.size() == 0 )
+            return res;
+        
+        int mid = 0;
+        
+        if( nums[0] >= 0 ){
+            for(int i = 0; i < nums.size(); ++i)
+                res.push_back(nums[i]*nums[i]);
+        }
+        else if( nums[nums.size() - 1] < 0){
+            for(int i = nums.size() - 1; i >= 0 ; --i)
+                res.push_back(nums[i]*nums[i]);
+        }
+        else{
+            for(int i = 0; i < nums.size(); ++i){
+                if( nums[i] >= 0 ){
+                    mid = i;
+                    break;
+                }
+            }
+            squareAndMerge(nums, res, mid);
+        }
+        return res;        
+    }
+};
